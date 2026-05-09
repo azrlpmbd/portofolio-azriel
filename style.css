@@ -10,19 +10,24 @@ html {
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: #001a4d;
+    background: #02163f;
     color: white;
+    overflow-x: hidden;
 }
 
-/* SNOW */
 #snow {
     position: fixed;
+    top: 0;
+    left: 0;
+
     width: 100%;
     height: 100%;
-    z-index: 0;
+
+    z-index: 1;
+    opacity: 1;
+
     pointer-events: none;
 }
-
 /* NAVBAR */
 .navbar {
     position: fixed;
@@ -30,7 +35,7 @@ body {
     background: rgba(0, 26, 77, 0.85);
     z-index: 9999;
     box-shadow: 0 4px 15px rgba(0, 51, 204, 0.2);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(1px);
 }
 
 .navbar-container {
@@ -104,23 +109,14 @@ body {
     justify-content: center;
     padding: 100px 20px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
-.section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: inherit;
-    z-index: -1;
-}
-
-.bg-light {
-    background: rgba(0, 13, 38, 0.85);
-    position: relative;
+/* CONTAINER */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* HERO */
@@ -717,4 +713,26 @@ body {
     .certificate img {
         height: 150px;
     }
+}
+
+/* SECTION COLORS */
+
+#hero {
+    background: rgba(15, 56, 140, 0.45);
+}
+
+#profile {
+    background: rgba(5, 25, 70, 0.58);
+}
+
+#experience {
+    background: rgba(15, 56, 140, 0.45);
+}
+
+#projects {
+    background: rgba(5, 25, 70, 0.58);
+}
+
+#certificate {
+    background: rgba(15, 56, 140, 0.45);
 }

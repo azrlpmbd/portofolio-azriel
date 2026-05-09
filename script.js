@@ -1,57 +1,116 @@
-// SNOW
+// PARTICLE NETWORK
 const canvas = document.getElementById("snow");
 const ctx = canvas.getContext("2d");
 
-let width, height, flakes = [];
+let particlesArray = [];
 
-function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-}
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-function init() {
-    flakes = [];
-    for (let i = 0; i < 100; i++) {
-        flakes.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            r: Math.random() * 3 + 1,
-            d: Math.random()
-        });
+window.addEventListener("resize", () => {
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    initParticles();
+
+});
+
+class Particle {
+
+    constructor() {
+
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+
+        this.size = Math.random() * 3 + 1;
+
+        this.speedX = (Math.random() - 0.5) * 1;
+        this.speedY = (Math.random() - 0.5) * 1;
+    }
+
+    update() {
+
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x > canvas.width || this.x < 0) {
+            this.speedX *= -1;
+        }
+
+        if (this.y > canvas.height || this.y < 0) {
+            this.speedY *= -1;
+        }
+    }
+
+    draw() {
+
+       ctx.fillStyle = "rgba(255,255,255,1)";
+
+        ctx.beginPath();
+
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+        ctx.fill();
     }
 }
 
-function draw() {
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = "white";
+function initParticles() {
 
-    flakes.forEach(f => {
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        ctx.fill();
+    particlesArray = [];
 
-        f.y += f.d * 2;
-        f.x += Math.sin(f.y * 0.01);
+    for (let i = 0; i < 80; i++) {
 
-        if (f.y > height) {
-            f.y = 0;
-            f.x = Math.random() * width;
-        }
-    });
+        particlesArray.push(new Particle());
 
-    requestAnimationFrame(draw);
+    }
 }
 
-resize();
-init();
-draw();
+function connectParticles() {
 
-window.addEventListener("resize", () => {
-    resize();
-    init();
-});
+    for (let a = 0; a < particlesArray.length; a++) {
+
+        for (let b = a; b < particlesArray.length; b++) {
+
+            let dx = particlesArray[a].x - particlesArray[b].x;
+            let dy = particlesArray[a].y - particlesArray[b].y;
+
+            let distance = dx * dx + dy * dy;
+
+            if (distance < 20000) {
+
+                ctx.strokeStyle = "rgba(0,204,255,0.35)";
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+
+                ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+
+                ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animateParticles() {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particlesArray.forEach(particle => {
+
+        particle.update();
+        particle.draw();
+
+    });
+
+    connectParticles();
+
+    requestAnimationFrame(animateParticles);
+}
+
+initParticles();
+animateParticles();
 
 // SKILL BAR
 window.addEventListener("scroll", () => {
@@ -72,24 +131,29 @@ function toggleTranslate() {
     }
 }
 
-// Hamburger Menu
+// HAMBURGER MENU
 document.addEventListener('DOMContentLoaded', () => {
+
     const hamburger = document.querySelector('.hamburger');
     const menu = document.querySelector('.menu');
 
+    // OPEN CLOSE MENU
     hamburger.addEventListener('click', () => {
+
         hamburger.classList.toggle('active');
         menu.classList.toggle('active');
+
     });
-});
 
-// AUTO CLOSE MENU AFTER CLICK
-document.querySelectorAll('.menu a').forEach(link => {
+    // AUTO CLOSE MENU
+    document.querySelectorAll('.menu a').forEach(link => {
 
-    link.addEventListener('click', () => {
+        link.addEventListener('click', () => {
 
-        hamburger.classList.remove('active');
-        menu.classList.remove('active');
+            hamburger.classList.remove('active');
+            menu.classList.remove('active');
+
+        });
 
     });
 
