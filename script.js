@@ -83,3 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// AUTO CLOSE MENU AFTER CLICK
+document.querySelectorAll('.menu a').forEach(link => {
+
+    link.addEventListener('click', () => {
+
+        hamburger.classList.remove('active');
+        menu.classList.remove('active');
+
+    });
+
+});
