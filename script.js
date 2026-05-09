@@ -53,14 +53,6 @@ window.addEventListener("resize", () => {
     init();
 });
 
-// HAMBURGER
-const hamburger = document.querySelector(".hamburger");
-const menu = document.querySelector(".menu");
-
-hamburger.addEventListener("click", () => {
-    menu.classList.toggle("active");
-});
-
 // SKILL BAR
 window.addEventListener("scroll", () => {
     document.querySelectorAll(".skill-progress").forEach(bar => {
